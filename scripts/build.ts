@@ -113,7 +113,13 @@ function cleanSvg(svg: string): string {
   return svg
     .replace(/\s+/g, " ")
     .replace(/ width="[^"]*"/g, "")
-    .replace(/ height="[^"]*"/g, "");
+    .replace(/ height="[^"]*"/g, "")
+    .replace(/fill="black"/g, 'fill="currentColor"')
+    .replace(/fill="#000000"/g, 'fill="currentColor"')
+    .replace(/fill="#000"/g, 'fill="currentColor"')
+    .replace(/stroke="black"/g, 'stroke="currentColor"')
+    .replace(/stroke="#000000"/g, 'stroke="currentColor"')
+    .replace(/stroke="#000"/g, 'stroke="currentColor"');
 }
 
 function isErrno(error: unknown): error is NodeJS.ErrnoException {
