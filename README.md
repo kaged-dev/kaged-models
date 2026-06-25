@@ -2,7 +2,7 @@
 
 > Self-hosted mirror of the [models.dev](https://github.com/anomalyco/models.dev) provider catalog for [kaged](https://kaged.dev). Publishes `https://models.kaged.dev`.
 
-This repository is the data source behind [ADR-0049: Provider store dynamic loading](../monorepo/docs/adr/0049-provider-store-dynamic-loading.md). It is intentionally a sibling repo to the kaged monorepo — it has a different lifecycle (nightly vendored snapshot vs. code commits) and must not be blurred into the daemon source tree.
+This repository is the data source behind [ADR-0049: Provider store dynamic loading](https://github.com/kaged-dev/monorepo/blob/main/docs/adr/0049-provider-store-dynamic-loading.md). It is intentionally a sibling repo to the kaged monorepo — it has a different lifecycle (nightly vendored snapshot vs. code commits) and must not be blurred into the daemon source tree.
 
 ## What this repo does
 
@@ -96,6 +96,6 @@ This repository is licensed under the MIT License. See [LICENCE.md](LICENCE.md).
 
 ## See also
 
-- [ADR-0049: Provider store dynamic loading](../monorepo/docs/adr/0049-provider-store-dynamic-loading.md) — the decision this repo implements
-- [Spec: LLM Provider Interface](../monorepo/docs/specs/llm.md) — daemon consumer contract
+- [ADR-0049: Provider store dynamic loading](https://github.com/kaged-dev/monorepo/blob/main/docs/adr/0049-provider-store-dynamic-loading.md) — the decision this repo implements
+- [Spec: LLM Provider Interface](https://github.com/kaged-dev/monorepo/blob/main/docs/specs/llm.md) — daemon consumer contract
 - [models.dev](https://github.com/anomalyco/models.dev) — upstream catalog source
