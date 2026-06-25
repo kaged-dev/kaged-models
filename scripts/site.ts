@@ -196,6 +196,7 @@ export function renderIndex(
       height: 2rem;
       object-fit: contain;
       flex-shrink: 0;
+      color: var(--amber);
     }
     .provider-card .name {
       font-weight: 600;
