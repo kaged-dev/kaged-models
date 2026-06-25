@@ -14,10 +14,13 @@ type Manifest = {
   schema_version: string;
 };
 
+export type LogoMap = Record<string, string>;
+
 export function renderIndex(
   providers: Record<string, Provider>,
   models: Record<string, unknown>,
   manifest: Manifest,
+  logoMap: LogoMap,
 ): string {
   const providerCount = Object.keys(providers).length;
   const modelCount = Object.keys(models).length;
@@ -119,8 +122,8 @@ export function renderIndex(
     .stat {
       background: var(--bg-elevated);
       border: 1px solid var(--border-default);
-      padding: 1rem;
       border-radius: 0.5rem;
+      padding: 1rem;
     }
     .stat-number {
       font-family: var(--font-display);
@@ -191,12 +194,16 @@ export function renderIndex(
       align-items: center;
       gap: 0.75rem;
     }
-    .provider-card img {
+    .provider-card .logo {
       width: 2rem;
       height: 2rem;
-      object-fit: contain;
       flex-shrink: 0;
       color: var(--amber);
+    }
+    .provider-card .logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
     .provider-card .name {
       font-weight: 600;
@@ -266,9 +273,10 @@ export function renderIndex(
             .map((name) => {
               const provider = Object.values(providers).find((p) => p.name === name)!;
               const modelCount = Object.keys(provider.models).length;
+              const logoSvg = logoMap[provider.id] ?? logoMap.default ?? "";
               return `
                 <div class="provider-card">
-                  <img src="/logos/${provider.id}.svg" alt="" onerror="this.src='/logos/default.svg'">
+                  <div class="logo" aria-hidden="true">${logoSvg}</div>
                   <div>
                     <div class="name">${escapeHtml(provider.name)}</div>
                     <div class="models">${modelCount} model${modelCount === 1 ? "" : "s"}</div>

@@ -30,8 +30,10 @@ async function main() {
   await Bun.write(path.join(OUT_DIR, "manifest.json"), JSON.stringify(manifest, null, 2));
 
   await copyLogos(VENDOR_DIR, OUT_DIR);
-  await Bun.write(path.join(OUT_DIR, "index.html"), renderIndex(providers, models, manifest));
-  await Bun.write(path.join(OUT_DIR, "404.html"), renderIndex(providers, models, manifest));
+  const logoMap = await buildLogoMap(VENDOR_DIR);
+  const indexHtml = renderIndex(providers, models, manifest, logoMap);
+  await Bun.write(path.join(OUT_DIR, "index.html"), indexHtml);
+  await Bun.write(path.join(OUT_DIR, "404.html"), indexHtml);
 
   console.log(`built ${OUT_DIR}:`);
   console.log(`  providers: ${Object.keys(providers).length}`);
@@ -79,6 +81,39 @@ async function copyLogos(vendorDir: string, outDir: string) {
     if (isErrno(error) && error.code === "ENOENT") return;
     throw error;
   }
+}
+
+type LogoMap = Record<string, string>;
+
+async function buildLogoMap(vendorDir: string): Promise<LogoMap> {
+  const result: LogoMap = {};
+
+  const defaultLogoPath = path.join(vendorDir, "providers", "logo.svg");
+  const defaultLogo = Bun.file(defaultLogoPath);
+  if (await defaultLogo.exists()) {
+    result.default = await cleanSvg(await defaultLogo.text());
+  }
+
+  const providersDir = path.join(vendorDir, "providers");
+  const entries = await fs.readdir(providersDir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+
+    const logoPath = path.join(providersDir, entry.name, "logo.svg");
+    const logoFile = Bun.file(logoPath);
+    if (await logoFile.exists()) {
+      result[entry.name] = await cleanSvg(await logoFile.text());
+    }
+  }
+
+  return result;
+}
+
+function cleanSvg(svg: string): string {
+  return svg
+    .replace(/\s+/g, " ")
+    .replace(/ width="[^"]*"/g, "")
+    .replace(/ height="[^"]*"/g, "");
 }
 
 function isErrno(error: unknown): error is NodeJS.ErrnoException {
