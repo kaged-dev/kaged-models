@@ -52,13 +52,8 @@ jobs:
       - name: Build catalog
         run: bun run build
 
-      - name: Publish to models branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: models
-          publish_dir: ./dist
-          user_name: "Karasu"
-          user_email: "karasu@kaged.dev"
-          commit_message: "publish catalog from ${{ github.sha }}"
-          force_orphan: true
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: bunx --yes wrangler pages deploy ./dist --project-name kaged --branch models

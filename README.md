@@ -14,7 +14,7 @@ This repository is the data source behind [ADR-0049: Provider store dynamic load
    - `logos/{provider}.svg` — provider logos, self-hosted
    - `manifest.json` — provenance: `{ source_commit, fetched_at, schema_version }`
 3. Renders a small kaged-branded site with MIT attribution.
-4. Publishes the built `dist/` directory to the `models` branch, which Cloudflare Pages serves at `models.kaged.dev`.
+4. Deploys the built `dist/` directory to the `models` branch of the Cloudflare Pages project `kaged` at `models.kaged.dev`.
 
 The daemon bundles the catalog JSON and logos at image-build time, so a fresh daemon is offline-capable for metadata without fetching the live mirror on startup.
 
@@ -27,7 +27,7 @@ The daemon bundles the catalog JSON and logos at image-build time, so a fresh da
 │   ├── bump-submodule.ts           # bump vendor/models.dev to origin/dev
 │   └── site.ts                     # kaged-branded index.html renderer
 ├── vendor/models.dev               # git submodule (anomalyco/models.dev, dev branch)
-├── dist/                           # build output (gitignored, published to models branch)
+├── dist/                           # build output (gitignored, deployed via wrangler)
 └── README.md
 ```
 
@@ -80,15 +80,15 @@ Catalog data is derived from [models.dev](https://github.com/anomalyco/models.de
 
 ## Cloudflare Pages setup
 
-The workflow publishes the built catalog to the `models` branch. Configure the Cloudflare Pages project to deploy from that branch:
+The workflow deploys the built `dist/` directory directly to the Cloudflare Pages project `kaged` on the `models` branch using Wrangler.
 
-1. Create a Pages project for `kaged-dev/kaged-models`.
-2. Set the production branch to `models`.
-3. Build command: leave blank (the branch already contains the built `dist/` output).
-4. Root directory: `/` (the branch root is the site root).
-5. Add the custom domain `models.kaged.dev` in the Pages dashboard.
+1. Ensure the Cloudflare Pages project `kaged` exists.
+2. Add these repository secrets to `kaged-dev/kaged-models`:
+   - `CLOUDFLARE_API_TOKEN` — an API token with `Cloudflare Pages:Edit` permission for the project.
+   - `CLOUDFLARE_ACCOUNT_ID` — the Cloudflare account ID that owns the project.
+3. Add the custom domain `models.kaged.dev` in the Pages dashboard for the `models` branch.
 
-The workflow uses the default `GITHUB_TOKEN`, so no extra secrets are needed.
+The workflow also uses the default `GITHUB_TOKEN` to commit submodule bumps.
 
 ## License
 
