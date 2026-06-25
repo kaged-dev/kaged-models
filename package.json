@@ -1,0 +1,22 @@
+{
+  "name": "@kaged/models",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted mirror of the models.dev provider catalog for kaged. Publishes models.kaged.dev.",
+  "homepage": "https://models.kaged.dev",
+  "scripts": {
+    "build": "bun run scripts/build.ts",
+    "typecheck": "tsc --noEmit",
+    "bump": "bun run scripts/bump-submodule.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bun": "^1.3.0",
+    "@types/node": "^22.13.0",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "bun": ">=1.3.9"
+  }
+}

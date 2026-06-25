@@ -1,0 +1,4 @@
+[submodule "vendor/models.dev"]
+	path = vendor/models.dev
+	url = https://github.com/anomalyco/models.dev.git
+	branch = dev
