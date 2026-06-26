@@ -13,7 +13,10 @@ This repository is the data source behind [ADR-0049: Provider store dynamic load
    - `catalog.json` — combined `api.json` + `models.json`
    - `logos/{provider}.svg` — provider logos, self-hosted
    - `manifest.json` — provenance: `{ source_commit, fetched_at, schema_version }`
-3. Renders a small kaged-branded site with MIT attribution.
+3. Renders a small kaged-branded site with MIT attribution:
+   - `/` — provider index
+   - `/provider/{id}/` — provider details and its models
+   - `/model/{provider}/{id}/` — model details with cross-provider price comparison
 4. Deploys the built `dist/` directory to the `models` branch of the Cloudflare Pages project `kaged` at `models.kaged.dev`.
 
 The daemon bundles the catalog JSON and logos at image-build time, so a fresh daemon is offline-capable for metadata without fetching the live mirror on startup.
@@ -25,7 +28,7 @@ The daemon bundles the catalog JSON and logos at image-build time, so a fresh da
 ├── scripts/
 │   ├── build.ts                    # generate JSON, copy logos, render site
 │   ├── bump-submodule.ts           # bump vendor/models.dev to origin/dev
-│   └── site.ts                     # kaged-branded index.html renderer
+│   └── site.ts                     # kaged-branded HTML page renderer
 ├── vendor/models.dev               # git submodule (anomalyco/models.dev, dev branch)
 ├── dist/                           # build output (gitignored, deployed via wrangler)
 └── README.md
@@ -61,6 +64,8 @@ Once published, the following endpoints are available at `https://models.kaged.d
 | `/catalog.json` | Combined `providers` + `models` in one file. |
 | `/manifest.json` | Provenance: submodule commit, build timestamp, schema version. |
 | `/logos/{provider}.svg` | Provider logo. Falls back to `default.svg` if unavailable. |
+| `/provider/{id}/` | Provider page: details, models, and links. |
+| `/model/{provider}/{id}/` | Model page: cross-provider offerings and pricing. |
 
 ## Provenance
 

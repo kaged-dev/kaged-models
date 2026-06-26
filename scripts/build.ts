@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { generateCatalog } from "../vendor/models.dev/packages/core/src/index.ts";
 import { getSubmoduleCommit } from "./git.ts";
-import { renderIndex } from "./site.ts";
+import { renderIndex, renderProviderPage, renderModelPage } from "./site.ts";
 
 const OUT_DIR = "./dist";
 const VENDOR_DIR = "./vendor/models.dev";
@@ -35,9 +35,29 @@ async function main() {
   await Bun.write(path.join(OUT_DIR, "index.html"), indexHtml);
   await Bun.write(path.join(OUT_DIR, "404.html"), indexHtml);
 
+  let providerPages = 0;
+  for (const provider of Object.values(providers)) {
+    const providerDir = path.join(OUT_DIR, "provider", provider.id);
+    await fs.mkdir(providerDir, { recursive: true });
+    const providerHtml = renderProviderPage(provider, providers, models, manifest, logoMap);
+    await Bun.write(path.join(providerDir, "index.html"), providerHtml);
+    providerPages++;
+  }
+
+  let modelPages = 0;
+  for (const [globalModelId, globalModel] of Object.entries(models)) {
+    const modelDir = path.join(OUT_DIR, "model", ...globalModelId.split("/"));
+    await fs.mkdir(modelDir, { recursive: true });
+    const modelHtml = renderModelPage(globalModelId, globalModel, providers, models, manifest, logoMap);
+    await Bun.write(path.join(modelDir, "index.html"), modelHtml);
+    modelPages++;
+  }
+
   console.log(`built ${OUT_DIR}:`);
   console.log(`  providers: ${Object.keys(providers).length}`);
   console.log(`  models:    ${Object.keys(models).length}`);
+  console.log(`  provider pages: ${providerPages}`);
+  console.log(`  model pages:    ${modelPages}`);
   console.log(`  source:    ${sourceCommit}`);
 }
 
