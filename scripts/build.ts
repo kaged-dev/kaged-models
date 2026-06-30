@@ -14,6 +14,8 @@ async function main() {
 
   const { providers, models } = await generateCatalog(VENDOR_DIR);
 
+  await mergeExtraProviders(providers, models);
+
   await Bun.write(path.join(OUT_DIR, "api.json"), JSON.stringify(providers, null, 2));
   await Bun.write(path.join(OUT_DIR, "models.json"), JSON.stringify(models, null, 2));
   await Bun.write(
@@ -83,6 +85,8 @@ async function copyLogos(vendorDir: string, outDir: string) {
     }
   }
 
+  await copyExtraLogos(logosDir);
+
   const labsDir = path.join(vendorDir, "labs");
   try {
     const labEntries = await fs.readdir(labsDir, { withFileTypes: true });
@@ -126,6 +130,8 @@ async function buildLogoMap(vendorDir: string): Promise<LogoMap> {
     }
   }
 
+  await mergeExtraLogos(result);
+
   return result;
 }
 
@@ -144,6 +150,101 @@ function cleanSvg(svg: string): string {
 
 function isErrno(error: unknown): error is NodeJS.ErrnoException {
   return error instanceof Error && "code" in error;
+}
+
+type CatalogProviders = Record<string, any>;
+type CatalogModels = Record<string, any>;
+
+const EXTRA_DIR = path.join("vendor", "extra");
+
+async function mergeExtraProviders(
+  providers: CatalogProviders,
+  models: CatalogModels,
+): Promise<void> {
+  let entries: fs.Dirent[];
+  try {
+    entries = await fs.readdir(EXTRA_DIR, { withFileTypes: true });
+  } catch (error) {
+    if (isErrno(error) && error.code === "ENOENT") return;
+    throw error;
+  }
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const providerJsonPath = path.join(EXTRA_DIR, entry.name, "provider.json");
+    const file = Bun.file(providerJsonPath);
+    if (!(await file.exists())) continue;
+
+    const data = await file.json();
+    if (data.provider) {
+      const providerId = data.provider.id ?? entry.name;
+      const providerEntry = { ...data.provider, id: providerId };
+      if (data.models) {
+        providerEntry.models = buildProviderModels(data.models);
+      }
+      providers[providerId] = providerEntry;
+    }
+    if (data.models) {
+      Object.assign(models, data.models);
+    }
+  }
+}
+
+function buildProviderModels(models: CatalogModels): Record<string, any> {
+  const result: Record<string, any> = {};
+  for (const [key, entry] of Object.entries(models)) {
+    const meta = entry?.meta ?? {};
+    const caps = meta.capabilities ?? {};
+    const id = key.split("/").pop() ?? key;
+    result[id] = {
+      id,
+      name: entry?.name ?? id,
+      attachment: caps.vision ?? false,
+      reasoning: caps.reasoning ?? false,
+      tool_call: caps.functionCalling ?? false,
+      structured_output: caps.responseSchema ?? false,
+      temperature: true,
+      streaming: caps.streaming ?? true,
+    };
+  }
+  return result;
+}
+
+async function copyExtraLogos(logosDir: string): Promise<void> {  let entries: fs.Dirent[];
+  try {
+    entries = await fs.readdir(EXTRA_DIR, { withFileTypes: true });
+  } catch (error) {
+    if (isErrno(error) && error.code === "ENOENT") return;
+    throw error;
+  }
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const logoPath = path.join(EXTRA_DIR, entry.name, "logo.svg");
+    const logoFile = Bun.file(logoPath);
+    if (await logoFile.exists()) {
+      await Bun.write(path.join(logosDir, `${entry.name}.svg`), logoFile);
+    }
+  }
+}
+
+async function mergeExtraLogos(logoMap: Record<string, string>): Promise<void> {
+  let entries: fs.Dirent[];
+  try {
+    entries = await fs.readdir(EXTRA_DIR, { withFileTypes: true });
+  } catch (error) {
+    if (isErrno(error) && error.code === "ENOENT") return;
+    throw error;
+  }
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const logoPath = path.join(EXTRA_DIR, entry.name, "logo.svg");
+    const logoFile = Bun.file(logoPath);
+    if (await logoFile.exists()) {
+      logoMap[entry.name] = await cleanSvg(await logoFile.text());
+    }
+  }
 }
 
 await main();

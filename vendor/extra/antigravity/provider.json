@@ -1,0 +1,68 @@
+{
+	"provider": {
+		"id": "antigravity",
+		"name": "antigravity",
+		"label": "Antigravity (Google Cloud Code)",
+		"npm": "antigravity",
+		"api": "https://cloudcode-pa.googleapis.com",
+		"env": []
+	},
+	"models": {
+		"antigravity/claude-sonnet-4-6": {
+			"key": "antigravity/claude-sonnet-4-6",
+			"name": "Claude Sonnet 4.6 (Antigravity)",
+			"meta": {
+				"key": "antigravity/claude-sonnet-4-6",
+				"litellmProvider": "antigravity",
+				"mode": "chat",
+				"maxInputTokens": 200000,
+				"maxOutputTokens": 64000,
+				"pricing": { "input": 0, "output": 0, "reasoning": null, "cacheRead": null, "cacheWrite": null },
+				"capabilities": { "reasoning": false, "vision": true, "functionCalling": true, "streaming": true, "promptCaching": false, "responseSchema": true, "systemMessages": true, "webSearch": false, "audioInput": false, "audioOutput": false, "pdf": true },
+				"deprecationDate": null
+			}
+		},
+		"antigravity/claude-opus-4-6-thinking": {
+			"key": "antigravity/claude-opus-4-6-thinking",
+			"name": "Claude Opus 4.6 Thinking (Antigravity)",
+			"meta": {
+				"key": "antigravity/claude-opus-4-6-thinking",
+				"litellmProvider": "antigravity",
+				"mode": "chat",
+				"maxInputTokens": 200000,
+				"maxOutputTokens": 64000,
+				"pricing": { "input": 0, "output": 0, "reasoning": null, "cacheRead": null, "cacheWrite": null },
+				"capabilities": { "reasoning": true, "vision": true, "functionCalling": true, "streaming": true, "promptCaching": false, "responseSchema": true, "systemMessages": true, "webSearch": false, "audioInput": false, "audioOutput": false, "pdf": true },
+				"deprecationDate": null
+			}
+		},
+		"antigravity/gemini-3-pro": {
+			"key": "antigravity/gemini-3-pro",
+			"name": "Gemini 3 Pro (Antigravity)",
+			"meta": {
+				"key": "antigravity/gemini-3-pro",
+				"litellmProvider": "antigravity",
+				"mode": "chat",
+				"maxInputTokens": 1048576,
+				"maxOutputTokens": 65535,
+				"pricing": { "input": 0, "output": 0, "reasoning": null, "cacheRead": null, "cacheWrite": null },
+				"capabilities": { "reasoning": true, "vision": true, "functionCalling": true, "streaming": true, "promptCaching": false, "responseSchema": true, "systemMessages": true, "webSearch": false, "audioInput": false, "audioOutput": false, "pdf": true },
+				"deprecationDate": null
+			}
+		},
+		"antigravity/gemini-3-flash": {
+			"key": "antigravity/gemini-3-flash",
+			"name": "Gemini 3 Flash (Antigravity)",
+			"meta": {
+				"key": "antigravity/gemini-3-flash",
+				"litellmProvider": "antigravity",
+				"mode": "chat",
+				"maxInputTokens": 1048576,
+				"maxOutputTokens": 65536,
+				"pricing": { "input": 0, "output": 0, "reasoning": null, "cacheRead": null, "cacheWrite": null },
+				"capabilities": { "reasoning": true, "vision": true, "functionCalling": true, "streaming": true, "promptCaching": false, "responseSchema": true, "systemMessages": true, "webSearch": false, "audioInput": false, "audioOutput": false, "pdf": true },
+				"deprecationDate": null
+			}
+		}
+	}
+}
