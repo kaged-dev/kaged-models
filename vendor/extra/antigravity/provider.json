@@ -9,60 +9,76 @@
 	},
 	"models": {
 		"antigravity/claude-sonnet-4-6": {
-			"key": "antigravity/claude-sonnet-4-6",
+			"id": "antigravity/claude-sonnet-4-6",
 			"name": "Claude Sonnet 4.6 (Antigravity)",
-			"meta": {
-				"key": "antigravity/claude-sonnet-4-6",
-				"litellmProvider": "antigravity",
-				"mode": "chat",
-				"maxInputTokens": 200000,
-				"maxOutputTokens": 64000,
-				"pricing": { "input": 0, "output": 0, "reasoning": null, "cacheRead": null, "cacheWrite": null },
-				"capabilities": { "reasoning": false, "vision": true, "functionCalling": true, "streaming": true, "promptCaching": false, "responseSchema": true, "systemMessages": true, "webSearch": false, "audioInput": false, "audioOutput": false, "pdf": true },
-				"deprecationDate": null
-			}
+			"family": "claude",
+			"attachment": true,
+			"reasoning": false,
+			"tool_call": true,
+			"temperature": true,
+			"streaming": true,
+			"structured_output": true,
+			"knowledge": "2025-04",
+			"release_date": "2025-05-14",
+			"last_updated": "2025-05-14",
+			"open_weights": false,
+			"modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
+			"limit": { "context": 200000, "output": 64000 },
+			"cost": { "input": 0, "output": 0 }
 		},
 		"antigravity/claude-opus-4-6-thinking": {
-			"key": "antigravity/claude-opus-4-6-thinking",
+			"id": "antigravity/claude-opus-4-6-thinking",
 			"name": "Claude Opus 4.6 Thinking (Antigravity)",
-			"meta": {
-				"key": "antigravity/claude-opus-4-6-thinking",
-				"litellmProvider": "antigravity",
-				"mode": "chat",
-				"maxInputTokens": 200000,
-				"maxOutputTokens": 64000,
-				"pricing": { "input": 0, "output": 0, "reasoning": null, "cacheRead": null, "cacheWrite": null },
-				"capabilities": { "reasoning": true, "vision": true, "functionCalling": true, "streaming": true, "promptCaching": false, "responseSchema": true, "systemMessages": true, "webSearch": false, "audioInput": false, "audioOutput": false, "pdf": true },
-				"deprecationDate": null
-			}
+			"family": "claude",
+			"attachment": true,
+			"reasoning": true,
+			"tool_call": true,
+			"temperature": true,
+			"streaming": true,
+			"structured_output": true,
+			"knowledge": "2025-04",
+			"release_date": "2025-05-14",
+			"last_updated": "2025-05-14",
+			"open_weights": false,
+			"modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
+			"limit": { "context": 200000, "output": 64000 },
+			"cost": { "input": 0, "output": 0 }
 		},
 		"antigravity/gemini-3-pro": {
-			"key": "antigravity/gemini-3-pro",
+			"id": "antigravity/gemini-3-pro",
 			"name": "Gemini 3 Pro (Antigravity)",
-			"meta": {
-				"key": "antigravity/gemini-3-pro",
-				"litellmProvider": "antigravity",
-				"mode": "chat",
-				"maxInputTokens": 1048576,
-				"maxOutputTokens": 65535,
-				"pricing": { "input": 0, "output": 0, "reasoning": null, "cacheRead": null, "cacheWrite": null },
-				"capabilities": { "reasoning": true, "vision": true, "functionCalling": true, "streaming": true, "promptCaching": false, "responseSchema": true, "systemMessages": true, "webSearch": false, "audioInput": false, "audioOutput": false, "pdf": true },
-				"deprecationDate": null
-			}
+			"family": "gemini",
+			"attachment": true,
+			"reasoning": true,
+			"tool_call": true,
+			"temperature": true,
+			"streaming": true,
+			"structured_output": true,
+			"knowledge": "2025-01",
+			"release_date": "2025-09-01",
+			"last_updated": "2025-09-01",
+			"open_weights": false,
+			"modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
+			"limit": { "context": 1048576, "output": 65535 },
+			"cost": { "input": 0, "output": 0 }
 		},
 		"antigravity/gemini-3-flash": {
-			"key": "antigravity/gemini-3-flash",
+			"id": "antigravity/gemini-3-flash",
 			"name": "Gemini 3 Flash (Antigravity)",
-			"meta": {
-				"key": "antigravity/gemini-3-flash",
-				"litellmProvider": "antigravity",
-				"mode": "chat",
-				"maxInputTokens": 1048576,
-				"maxOutputTokens": 65536,
-				"pricing": { "input": 0, "output": 0, "reasoning": null, "cacheRead": null, "cacheWrite": null },
-				"capabilities": { "reasoning": true, "vision": true, "functionCalling": true, "streaming": true, "promptCaching": false, "responseSchema": true, "systemMessages": true, "webSearch": false, "audioInput": false, "audioOutput": false, "pdf": true },
-				"deprecationDate": null
-			}
+			"family": "gemini",
+			"attachment": true,
+			"reasoning": true,
+			"tool_call": true,
+			"temperature": true,
+			"streaming": true,
+			"structured_output": true,
+			"knowledge": "2025-01",
+			"release_date": "2025-09-01",
+			"last_updated": "2025-09-01",
+			"open_weights": false,
+			"modalities": { "input": ["text", "image", "pdf"], "output": ["text"] },
+			"limit": { "context": 1048576, "output": 65536 },
+			"cost": { "input": 0, "output": 0 }
 		}
 	}
 }

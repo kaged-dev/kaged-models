@@ -193,19 +193,8 @@ async function mergeExtraProviders(
 function buildProviderModels(models: CatalogModels): Record<string, any> {
   const result: Record<string, any> = {};
   for (const [key, entry] of Object.entries(models)) {
-    const meta = entry?.meta ?? {};
-    const caps = meta.capabilities ?? {};
     const id = key.split("/").pop() ?? key;
-    result[id] = {
-      id,
-      name: entry?.name ?? id,
-      attachment: caps.vision ?? false,
-      reasoning: caps.reasoning ?? false,
-      tool_call: caps.functionCalling ?? false,
-      structured_output: caps.responseSchema ?? false,
-      temperature: true,
-      streaming: caps.streaming ?? true,
-    };
+    result[id] = entry;
   }
   return result;
 }
